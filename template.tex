@@ -1,12 +1,11 @@
 %% Bachelor Thesis Template of Xidian Uniersity
 %%   for using XDBAthesis package with LaTeX
 %%
-%% Created by Xue-Jilong(xuejilong@gmail.com)
-%%
-%% template.tex v0.1, 2011/03/21
+%% Created by Cuiyn, forked from xdlinux/xdba-thesis
 
 
-\documentclass[xetex,adobefonts]{XDBAthesis}
+\documentclass[xetex,winfonts]{XDBAthesis}
+
 % 选项说明：
 % dvipdfm  使用 dvipdfm(x) 生成最终的 PDF 文档 (缺省设置）
 % dvips    使用 dvips 生成最终的 PS 文档
@@ -15,6 +14,9 @@
 % adobefonts 使用 Adobe 中文字体
 % winfonts 使用 Windows 中文字体
 % master   用于生成硕士学位论文
+
+% 修复空格错误
+\DeclareRobustCommand\nobreakspace{\leavevmode\nobreak\ }
 
 % 图形文件的搜索路径
 \graphicspath{{chapter/}{figures/}}

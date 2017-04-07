@@ -1,23 +1,24 @@
+
 %% This program is a LaTeX class file for bachelor thesis template
 %% of Xidian university , built with the CTeX 2.9.0, writen with
 %% WinEdt 6.0.
 %%
+%% This program is free software; you can redistribute it and/or modify
+%% it under the terms of the GNU General Public License as published by
+%% the Free Software Foundation; either version 2 of the License, or
+%% (at your option) any later version.
+%%
+%% This program is distributed in the hope that it will be useful,
+%% but WITHOUT ANY WARRANTY; without even the implied warranty of
+%% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%% GNU General Public License for more details.
+%%
+%% You should have received a copy of the GNU General Public License
+%% along with this program; if not, write to the Free Software
+%% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+%%
 %% Copyright \copyright\ 2010 Xue-Jilong @ xidian
 %% $Xue-Jilong xuejilong@gmail.com, v0.2, 2011/04/01$
-%%
-%% This library is free software; you can redistribute it and/or
-%% modify it under the terms of the GNU Lesser General Public
-%% License as published by the Free Software Foundation; either
-%% version 2.1 of the License, or (at your option) any later version.
-%% 
-%% This library is distributed in the hope that it will be useful,
-%% but WITHOUT ANY WARRANTY; without even the implied warranty of
-%% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-%% Lesser General Public License for more details.
-%% 
-%% You should have received a copy of the GNU Lesser General Public
-%% License along with this library; if not, write to the Free Software
-%% Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 %% ----------------------------------------------------------------------
 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
@@ -26,12 +27,14 @@
 \newif\ifXDBA@typeinfo \XDBA@typeinfotrue
 \DeclareOption{notypeinfo}{\XDBA@typeinfofalse}
 \newif\ifXDBA@dvips \XDBA@dvipsfalse
+\newif\ifXDBA@gbk \XDBA@gbktrue
 \newif\ifXDBA@master \XDBA@masterfalse
 \newif\ifXDBA@bachelor \XDBA@bachelortrue
 \DeclareOption{dvips}{\XDBA@dvipstrue}
 \DeclareOption{dvipdfm}{\XDBA@dvipsfalse}
 \DeclareOption{pdftex}{\XDBA@dvipsfalse}
-\DeclareOption{xetex}{\XDBA@dvipsfalse}
+\DeclareOption{xetex}{\XDBA@dvipsfalse\XDBA@gbkfalse}
+\DeclareOption{utf-8}{\XDBA@gbkfalse}
 \DeclareOption{master}{\XDBA@mastertrue\XDBA@bachelorfalse}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexbook}}
 \ProcessOptions
@@ -54,9 +57,6 @@
     \setlength{\jot}{-2pt}
 \fi
 
-% breaks long urls
-\PassOptionsToPackage{hyphens}{url}
-
 % fix bullet for xetex with adobe font
 %\ifxetex
 %\renewcommand{\labelitemi}{\LARGE$\textbullet$}
@@ -71,7 +71,7 @@
 %% math packages
 \RequirePackage{amsmath,amsthm,amsfonts,amssymb,bm}
 %% modify caption
-\RequirePackage[font=small,labelsep=space]{caption}
+\RequirePackage{caption}
 %% modity tabs
 \RequirePackage{booktabs,tabularx}
 %% graphics packages
@@ -110,9 +110,14 @@
        pdfstartview=FitH }
 
 \ifxetex
+  \XDBA@gbkfalse
   \RequirePackage[T1]{fontenc}
 \fi
-\AtEndOfPackage{\makeatletter\input{XDBAthesis.cfg}\makeatother}
+\ifXDBA@gbk
+  \AtEndOfPackage{\makeatletter\input{XDBAthesis.cfg}\makeatother}
+\else
+  \AtEndOfPackage{\makeatletter\input{XDBAthesis-utf8.cfg}\makeatother}
+\fi
 \RequirePackage{times} % set english fonts to Times New Roman
 
 %% set margin with left:3cm,right:2cm,up:3cm,down:2cm
@@ -253,21 +258,7 @@
     \clearpage
     \if@twoside
     \thispagestyle{empty}
-    \ifXDBA@typeinfo
-        \vspace*{\stretch{1}}
-        \begin{footnotesize}
-            {\bfseries\noindent Contributers:}
-            \begin{description}
-                \item[HaoChen] write the statement page
-                \item[Olorin183795] bug report
-                \item[yzg3307] bug report
-            \end{description}
-            \noindent
-            Author by Xue-Jilong ( xuejilong@gmail.com ) and Justin-Wong ( bigeagle@xdlinux.info )\\
-            Typeset by \LaTeXe{} and \CTeX{} and provide for Bachelor Thesis of Xidian University. \\
-            The first page will not appear in your final thesis paper.  Take it easy for this copyright footnote. :-)
-        \end{footnotesize}
-    \fi
+    
     \cleardoublepage
   \fi
 }
